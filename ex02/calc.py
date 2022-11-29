@@ -1,7 +1,16 @@
 import tkinter as tk
+import tkinter.messagebox as tkm
+#3
+def button_click(event):
+    btn = event.widget
+    num = btn["text"]
+    tkm.showinfo("",f"{num}ボタンがクリックされました")
+#1
 
 root = tk.Tk()
 root.geometry("300x500")
+
+#4
 
 #2
 r, c = 0 ,0
