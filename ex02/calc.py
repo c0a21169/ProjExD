@@ -49,16 +49,6 @@ for ope in operators:
     if c%3 ==0:
         r += 1
         c=0
-
-f = ["+","="]
-for ope in operators:
-    button = tk.Button(root, text=f"{ope}",width=4,height=2,font=("",30))
-    button.grid(row=r,column=c)
-    button.bind("<1>",button_click)
-    c+=1
-    if c%3 ==0:
-        r += 1
-        c=0
     
         
 
