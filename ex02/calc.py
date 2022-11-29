@@ -19,6 +19,7 @@ def button_click(event):
 
 #1
 root = tk.Tk()
+root.title("電卓")
 root.geometry("400x500")
 
 #4
@@ -48,17 +49,25 @@ for ope in operators:
     if c%3 ==0:
         r += 1
         c=0
+
+f = ["+","="]
+for ope in operators:
+    button = tk.Button(root, text=f"{ope}",width=4,height=2,font=("",30))
+    button.grid(row=r,column=c)
+    button.bind("<1>",button_click)
+    c+=1
+    if c%3 ==0:
+        r += 1
+        c=0
     
         
 
 #functions = ["C","AC"]
 #r,c = 4,1
 #for fnc in functions:
- #   button = tk.Button(root, text=f"{fnc}",width=4,height=2,font=("",30))
-  #  button.grid(row=r,column=c)
-   # button.bind("<1>",button_click)
+    #button = tk.Button(root, text=f"{fnc}",width=4,height=2,font=("",30))
+    #button.grid(row=r,column=c)
+    #button.bind("<1>",button_click)
     #c += 1
-
-
 
 root.mainloop()
