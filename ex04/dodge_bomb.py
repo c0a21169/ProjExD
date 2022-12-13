@@ -14,6 +14,7 @@ def check_bound(obj_rct, scr_rct):
 
 def main():
     clock = pg.time.Clock()
+    
     #練習1
     pg.display.set_caption("逃げろ!こうかとん")
     scrn_sfc = pg.display.set_mode((1400,700)) 
