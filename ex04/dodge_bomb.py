@@ -3,6 +3,7 @@ import pygame as pg
 import sys
 import random
 
+
 def check_bound(obj_rct, scr_rct):
     yoko, tate = +1, +1
     if obj_rct.left <scr_rct.left or scr_rct.right < obj_rct.right:
@@ -33,15 +34,30 @@ def main():
     bomb_sfc.set_colorkey((0,0,0))
     pg.draw.circle(bomb_sfc,(255,0,0),(10,10), 10)
     bomb_rct = bomb_sfc.get_rect()
-    bomb_rct.centerx = random.randint(0, scrn_rct.width) #1500
-    bomb_rct.centery = random.randint(0, scrn_rct.height) #700
+    bomb_rct.centerx = random.randint(0, scrn_rct.width) 
+    bomb_rct.centery = random.randint(0, scrn_rct.height)
     scrn_sfc.blit(bomb_sfc, bomb_rct)
-    vx,vy = +1, +1
+
+    bomb_sfc2 =pg.Surface((20,20)) 
+    bomb_sfc2.set_colorkey((0,0,0))
+    pg.draw.circle(bomb_sfc2,(255,0,0),(10,10), 10)
+    bomb_rct2 = bomb_sfc2.get_rect()
+    bomb_rct2.centerx = random.randint(0, scrn_rct.width)
+    bomb_rct2.centery = random.randint(0, scrn_rct.height)
+    scrn_sfc.blit(bomb_sfc2, bomb_rct2)
+
+    bomb_sfc3 =pg.Surface((20,20)) 
+    bomb_sfc3.set_colorkey((0,0,0))
+    pg.draw.circle(bomb_sfc3,(255,0,0),(10,10), 10)
+    bomb_rct3 = bomb_sfc.get_rect()
+    bomb_rct3.centerx = random.randint(0, scrn_rct.height) 
+    bomb_rct3.centery = random.randint(0, scrn_rct.height) 
+    scrn_sfc.blit(bomb_sfc3, bomb_rct3)
+    vx,vy = +2, +1
 
     #練習2
     while True:
         scrn_sfc.blit(pgbg_sfc,pgbg_rct)
-
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 return
@@ -68,7 +84,6 @@ def main():
         scrn_sfc.blit(tori_sfc,tori_rct)
 
         #練習6
-        #vx,vy = +1, +1
         bomb_rct.move_ip(vx,vy)
         scrn_sfc.blit(tori_sfc,tori_rct)
         yoko,tate = check_bound(bomb_rct, scrn_rct)
@@ -76,8 +91,42 @@ def main():
         vy *= tate
         scrn_sfc.blit(bomb_sfc, bomb_rct)
 
+        bomb_rct2.move_ip(vx,vy)
+        scrn_sfc.blit(tori_sfc,tori_rct)
+        yoko,tate = check_bound(bomb_rct2, scrn_rct)
+        vx *= yoko
+        vy *= tate
+        scrn_sfc.blit(bomb_sfc2, bomb_rct2)
+
+        bomb_rct3.move_ip(vx,vy)
+        scrn_sfc.blit(tori_sfc,tori_rct)
+        yoko,tate = check_bound(bomb_rct3, scrn_rct)
+        vx *= yoko
+        vy *= tate
+        scrn_sfc.blit(bomb_sfc3, bomb_rct3)
+
         #練習8
-        if tori_rct.colliderect(bomb_rct):
+        if tori_rct.colliderect(bomb_rct):  #爆弾に当たるとこうかとんが焼鳥になる
+            tori_sfc = pg.image.load("fig/yaki.jpg")
+            tori_sfc = pg.transform.rotozoom(tori_sfc,0,2.0)
+            tori_rct = tori_sfc.get_rect()
+            tori_rct.center = 900, 400
+            scrn_sfc.blit(tori_sfc, tori_rct)
+
+        if tori_rct.colliderect(bomb_rct2):
+            tori_sfc = pg.image.load("fig/yaki.jpg")
+            tori_sfc = pg.transform.rotozoom(tori_sfc,0,2.0)
+            tori_rct = tori_sfc.get_rect()
+            tori_rct.center = 900, 400
+            scrn_sfc.blit(tori_sfc, tori_rct)
+            return
+
+        if tori_rct.colliderect(bomb_rct3):
+            tori_sfc = pg.image.load("fig/yaki.jpg")
+            tori_sfc = pg.transform.rotozoom(tori_sfc,0,2.0)
+            tori_rct = tori_sfc.get_rect()
+            tori_rct.center = 900, 400
+            scrn_sfc.blit(tori_sfc, tori_rct)
             return
 
         pg.display.update()
