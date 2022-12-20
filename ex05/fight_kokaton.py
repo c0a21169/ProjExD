@@ -116,7 +116,7 @@ def main():
     clock =pg.time.Clock()
 
     #練習1
-    scr = Screen("逃げろ!こうかとん",(1400, 700),"fig/pg_bg.jpg")
+    scr = Screen("負けるな!こうかとん",(1400, 700),"fig/pg_bg.jpg")
 
     # 練習３
     kkt = Bird("fig/6.png",2.0,(900,400))
