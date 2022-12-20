@@ -2,6 +2,9 @@ from asyncio.windows_events import selector_events
 import pygame as pg
 import random
 import sys
+import os
+
+main_dir = os.path.split(os.path.abspath(__file__))[0]
 
 class Screen:
     def __init__(self,title,wh,img_path):
@@ -12,8 +15,8 @@ class Screen:
         self.bgi_sfc = pg.image.load(img_path) 
         self.bgi_rct = self.bgi_sfc.get_rect()
 
-        def blit(self):
-            self.sfc.blit(self.bgi_sfc, self.bgi_rct)
+    def blit(self):
+        self.sfc.blit(self.bgi_sfc, self.bgi_rct)
 
 class Bird:
     key_delta = {
@@ -45,30 +48,30 @@ class Bird:
 
 
 
-    class Bomb:
-        def __init__(self, color,rad,vxy,scr:Screen):
-            self.sfc = pg.Surface((2*rad, 2*rad)) # 正方形の空のSurface
-            self.fc.set_colorkey((0, 0, 0))
-            pg.draw.circle(self.sfc,color (rad,rad),rad)
-            self.rct = self.sfc.get_rect()
-            self.rct.centerx = random.randint(0, scr.rct.width)
-            self.rct.centery = random.randint(0, scr.rct.height)
-            self.vx, self.vy = vxy
+class Bomb:
+    def __init__(self, color,rad,vxy,scr:Screen):
+        self.sfc = pg.Surface((2*rad, 2*rad)) # 正方形の空のSurface
+        self.sfc.set_colorkey((0, 0, 0))
+        pg.draw.circle(self.sfc,color ,(rad,rad),rad)
+        self.rct = self.sfc.get_rect()
+        self.rct.centerx = random.randint(0, scr.rct.width)
+        self.rct.centery = random.randint(0, scr.rct.height)
+        self.vx, self.vy = vxy
 
-        def blit(self,scr:Screen):
-            scr.sfc.blit(self.sfc,self.rct)
+    def blit(self,scr:Screen):
+        scr.sfc.blit(self.sfc,self.rct)
 
-        def update(self,scr:Screen):
-            self.rct.move_ip(self.vx, self.vy)
-            yoko, tate = check_bound(self.rct, scr.rct)
-            self.vx *= yoko
-            self.vy *= tate
-            self.blit(scr)
+    def update(self,scr:Screen):
+        self.rct.move_ip(self.vx, self.vy)
+        yoko, tate = check_bound(self.rct, scr.rct)
+        self.vx *= yoko
+        self.vy *= tate
+        self.blit(scr)
 
 
-            self.sfc.blit(self.sfc, self.rct) 
-            #scrn_sfc.blit(bomb_sfc, bomb_rct) 
-            #vx, vy = +1, +1
+        self.sfc.blit(self.sfc, self.rct) 
+        #scrn_sfc.blit(bomb_sfc, bomb_rct) 
+        #vx, vy = +1, +1
 
 
 def check_bound(obj_rct, scr_rct):
@@ -86,6 +89,25 @@ def check_bound(obj_rct, scr_rct):
 
 
 def main():
+
+    def main(winstyle=0):
+    # Initialize pygame
+        if pg.get_sdl_version()[0] == 2:
+            pg.mixer.pre_init(44100, 32, 2, 1024)
+    pg.init()
+    if pg.mixer and not pg.mixer.get_init():
+        print("Warning, no sound")
+        pg.mixer = None
+
+        ##boom_sound = load_sound("boom.wav")
+        #oot_sound = load_sound("car_door.wav")
+
+    #if pg.mixer:
+     #   music = os.path.join(main_dir, "data", "house_lo.wav")
+      #  pg.mixer.music.load(music)
+       # pg.mixer.music.play(-1)
+
+
     clock =pg.time.Clock()
 
     #1
@@ -96,29 +118,37 @@ def main():
     kkt.update(scr)
 
     # 練習５
-    bkb = Bomb((255,0,0),10, (+1, +1),scr)
-    bkb.update(scr)
+    bkb_lst=[]
+    color_lst = ["rad","green","yellow"]
+    for _ in range(5):
+        bkb = Bomb((255,0,0),10, (+1, +1),scr)
+        bkb_lst.append(bkb)
+    #bkb.update(scr)
     
 
     # 練習２
     while True:
-        scr.blit()#scrn_sfc.blit(pgbg_sfc, pgbg_rct) 
+        scr.blit()
 
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 return
 
         kkt.update(scr)
-        bkb.update(scr)
-        if kkt.rct.colliderect(bkb.rct):
-            return
+        for i in range(5):
+            bkb_lst[i].update(scr)
+            if kkt.rct.colliderect(bkb_lst[i].rct):
+                return
 
         pg.display.update()
         clock.tick(1000)
-
 
 if __name__ == "__main__":
     pg.init()
     main()
     pg.quit()
     sys.exit()
+
+            #if pg.mixer:
+            #pg.mixer.music.fadeout(1000)
+            #pg.time.wait(1000)
