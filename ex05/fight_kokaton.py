@@ -1,8 +1,8 @@
-from asyncio.windows_events import selector_events
 import pygame as pg
 import random
 import sys
 import os
+from asyncio.windows_events import selector_events
 
 
 main_dir = os.path.split(os.path.abspath(__file__))[0]
@@ -155,5 +155,3 @@ if __name__ == "__main__":
     main()
     pg.quit()
     sys.exit()
-
-            
