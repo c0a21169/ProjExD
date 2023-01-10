@@ -36,7 +36,7 @@ last_pipe = pygame.time.get_ticks() - pipe_frequency
 
 pass_pipe = False
 
-bg = pygame.image.load("img/koukadai.jpg")
+bg = pygame.image.load("img/haikei.jpg")
 buttom_img = pygame.image.load("img/restart.png")
 
 def draw_text(text, font, text_col, x, y):
